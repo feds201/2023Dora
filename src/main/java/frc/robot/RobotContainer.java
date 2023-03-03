@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.auton.exampleAuto;
 import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.commands.intake.DeployIntake;
+import frc.robot.commands.intake.RetractIntake;
+import frc.robot.commands.intake.RunIntakeWheels;
+import frc.robot.commands.intake.StopIntakeWheels;
 import frc.robot.commands.sensor.StrafeAlign;
 import frc.robot.commands.auton.examplePPAuto;
 import frc.robot.subsystems.ArmSubsystem;
@@ -22,6 +26,7 @@ public class RobotContainer {
      
         private final ArmSubsystem s_arm = new ArmSubsystem();
         private final VisionSubsystem s_vision = new VisionSubsystem();
+        private final IntakeSubsystem s_intake = new IntakeSubsystem();
 
         CommandXboxController m_driveController = new CommandXboxController(Constants.OIConstants.kDriveControllerPort);
         CommandXboxController m_operatorController = new CommandXboxController(
@@ -81,6 +86,14 @@ public class RobotContainer {
                 m_operatorController.y().onTrue(s_arm.resetSensor());
 
                 m_operatorController.povDown().whileTrue(s_arm.slowlyGoDown());
+
+                m_operatorController.rightTrigger().onTrue(new DeployIntake(s_intake));
+
+                m_operatorController.leftTrigger().onTrue(new RetractIntake(s_intake));
+
+                m_operatorController.rightBumper().onTrue(new RunIntakeWheels(s_intake));
+
+                m_operatorController.leftBumper().onTrue(new StopIntakeWheels(s_intake));
 
         }
 

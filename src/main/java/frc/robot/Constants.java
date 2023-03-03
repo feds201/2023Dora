@@ -181,13 +181,14 @@ public class Constants {
 
   public static final class IntakeConstants {
     // Pheonix IDs
-    public static final int kIntakeRightDeployMotor = 52;
-    public static final int kIntakeRightWheelMotor = 62;
+    public static final int kIntakeRightDeployMotor = 51;
+    public static final int kIntakeRightWheelMotor = 61;
     public static final int kIntakeTriggerID = 2;
 
     // Speeds
-    public static final double kIntakeDeploySpeed = -0.05;
-    public static final double kIntakeRetractSpeed = -0.15;
+    public static final double kIntakeDeploySpeed = 0.20;
+    public static final double kIntakeRetractSpeed = -0.30;
+    // public static final double kIntakeRetractSpeed = -0.15;
     public static final double kIntakeWheelSpeed = 0.30;
 
     // Encoder Counts

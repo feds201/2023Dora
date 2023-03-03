@@ -12,7 +12,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private final TalonFX intakeDeployMotor;
     private final TalonFX intakeWheelMotor;
 
-
     public IntakeSubsystem() {
         intakeDeployMotor = new TalonFX(Constants.IntakeConstants.kIntakeRightDeployMotor);
         intakeWheelMotor = new TalonFX(Constants.IntakeConstants.kIntakeRightWheelMotor);
@@ -27,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void rotateIntakeBackwards() {
-        intakeDeployMotor.set(TalonFXControlMode.PercentOutput, -Constants.IntakeConstants.kIntakeDeploySpeed);
+        intakeDeployMotor.set(TalonFXControlMode.PercentOutput, Constants.IntakeConstants.kIntakeRetractSpeed);
     }
 
     public void stopIntakeRotation() {

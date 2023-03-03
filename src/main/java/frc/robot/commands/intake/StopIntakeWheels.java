@@ -3,21 +3,26 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class RunIntakeWheels extends CommandBase {
+public class StopIntakeWheels extends CommandBase {
     private final IntakeSubsystem m_intake;
 
-    public RunIntakeWheels(IntakeSubsystem intake) {
+    public StopIntakeWheels(IntakeSubsystem intake) {
         this.m_intake = intake; 
         addRequirements(this.m_intake);
     } 
 
     @Override
-    public void execute() {
-        m_intake.runIntakeWheelsIn();
+    public boolean isFinished() {
+        return true;
+    }
+
+    @Override
+    public void initialize() {
+        m_intake.stopIntakeWheels();
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stopIntakeRotation();
+        m_intake.stopIntakeWheels();
     }
 }
