@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.VisionConstants;
+import frc.robot.Constants.LimelightConstants;
 
 import java.util.List;
 
@@ -108,26 +108,26 @@ public class VisionSubsystem extends SubsystemBase {
 
     public double getTargetDistance(){
         if(isTargetLow){
-            cameraDistanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.limelightheight, 
-                                                                VisionConstants.lowTargetHeight, 
-                                                                VisionConstants.limelightPitchRadians,
+            cameraDistanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(LimelightConstants.CAMERA_HEIGHT, 
+                                                                LimelightConstants.lowTargetHeight, 
+                                                                LimelightConstants.CAMERA_PITCH_RADIANS,
                                                                 getTargetPitch()); 
         }
         else{
-            cameraDistanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(VisionConstants.limelightheight, 
-                                                                VisionConstants.highTargetHeight, 
-                                                                VisionConstants.limelightPitchRadians,
+            cameraDistanceToTarget = PhotonUtils.calculateDistanceToTargetMeters(LimelightConstants.CAMERA_HEIGHT, 
+                                                                LimelightConstants.highTargetHeight, 
+                                                                LimelightConstants.CAMERA_PITCH_RADIANS,
                                                                 getTargetPitch());    
         }
         
         // This is the law of cosines
         // C^2 = A^2 + B^2 - 2*A*Bcos(theta)
         double cameraDistanceToTargetSquared = Math.pow(cameraDistanceToTarget, 2); // this is A^2
-        double limelightToArmRotateAxisSquared = Math.pow(VisionConstants.limelightToTopArmOffset, 2); // this is B^2
-        double theta = Math.PI / 2 - getTargetPitch() - VisionConstants.limelightPitchRadians;
+        double limelightToArmRotateAxisSquared = Math.pow(LimelightConstants.limelightToTopArmOffset, 2); // this is B^2
+        double theta = Math.PI / 2 - getTargetPitch() - LimelightConstants.CAMERA_PITCH_RADIANS;
     
         //                        A^2                        +              B^2                - 2 *             A          *                        B                *     cos(theta)                      
-        double rightHandSide = cameraDistanceToTargetSquared + limelightToArmRotateAxisSquared - 2 * cameraDistanceToTarget * VisionConstants.limelightToTopArmOffset * Math.cos(theta);
+        double rightHandSide = cameraDistanceToTargetSquared + limelightToArmRotateAxisSquared - 2 * cameraDistanceToTarget * LimelightConstants.limelightToTopArmOffset * Math.cos(theta);
 
         // C = sqrt(rightHandSize)
         return Math.sqrt(rightHandSide);
@@ -151,16 +151,16 @@ public class VisionSubsystem extends SubsystemBase {
         double driveDistance;
         if (getTargetYaw() >= 0) {
             driveDistance = (Math.cos(90 - getTargetYaw()) * getHorizontalDistanceToTarget())
-                    - VisionConstants.limelightOffset;
+                    - LimelightConstants.CAMERA_OFFSET;
         } else {
             driveDistance = (Math.cos(90 - getTargetYaw()) * getHorizontalDistanceToTarget())
-                    + VisionConstants.limelightOffset;
+                    + LimelightConstants.CAMERA_OFFSET;
         }
         return driveDistance;
     }
 
     public boolean strafeFinished() {
-        return (Math.cos(90 - getTargetYaw()) * getHorizontalDistanceToTarget()) == VisionConstants.limelightOffset;
+        return (Math.cos(90 - getTargetYaw()) * getHorizontalDistanceToTarget()) == LimelightConstants.CAMERA_OFFSET;
     }
 
     public boolean rotateFinished() {
@@ -168,7 +168,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public double rotateArmValue() {
-        double sinRotateAngle = Math.sin((Math.PI / 2) - (getTargetPitch() + VisionConstants.limelightPitchRadians));
+        double sinRotateAngle = Math.sin((Math.PI / 2) - (getTargetPitch() + LimelightConstants.CAMERA_PITCH_RADIANS));
         return Math.asin(sinRotateAngle);
     }
 }

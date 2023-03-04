@@ -6,10 +6,10 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.lib.math.Conversions;
-import frc.lib.util.CTREModuleState;
-import frc.lib.util.SwerveModuleConstants;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.config.SwerveModuleConstants;
+import frc.robot.utils.CTREModuleState;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;

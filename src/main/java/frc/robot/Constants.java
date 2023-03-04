@@ -7,24 +7,24 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.lib.util.COTSFalconSwerveConstants;
-import frc.lib.util.SwerveModuleConstants;
+import frc.robot.config.COTSFalconSwerveConstants;
+import frc.robot.config.SwerveModuleConstants;
 
 public class Constants {
 
   public static final double stickDeadband = 0.1;
 
-  public static final class VisionConstants {
-    public static final double limelightOffset = .13;
-    public static final double limelightheight = 1.2;
+  public static final class LimelightConstants {
+    public static final double CAMERA_OFFSET = .13;
+    public static final double CAMERA_HEIGHT = 1.2;  // What unit of measure?
     public static final double limelightToTopArmOffset = .24;
     public static final double lowTargetHeight = 1.5;
     public static final double highTargetHeight = 2.6;
-    public static final double limelightPitchRadians = .67;
+    public static final double CAMERA_PITCH_RADIANS = .67;  
 
     public static final double degreesToEncoderCounts = 175;
   }
-  
+
 
   public static final class SwerveConstants {
     public static final int pigeonID = 0;
@@ -117,6 +117,7 @@ public class Constants {
       public static final int angleMotorID = 11;
       public static final int talonSRXID = 1;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(122.5);
+      public static final double STEER_OFFSET_RADIANS = Math.toRadians(122.5+180);
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
           talonSRXID, angleOffset);
     }
@@ -127,6 +128,7 @@ public class Constants {
       public static final int angleMotorID = 31;
       public static final int talonSRXID = 3;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(175.2);
+      public static final double STEER_OFFSET_RADIANS = Math.toRadians(175.2+180);
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
           talonSRXID, angleOffset);
     }
@@ -137,6 +139,7 @@ public class Constants {
       public static final int angleMotorID = 21;
       public static final int talonSRXID = 2;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(266.4);
+      public static final double STEER_OFFSET_RADIANS = Math.toRadians(266.4+180);
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
           talonSRXID, angleOffset);
     }
@@ -147,6 +150,7 @@ public class Constants {
       public static final int angleMotorID = 41;
       public static final int talonSRXID = 4;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(304.4);
+      public static final double STEER_OFFSET_RADIANS = Math.toRadians(304.4+180);
       public static final SwerveModuleConstants constants = new SwerveModuleConstants(driveMotorID, angleMotorID,
           talonSRXID, angleOffset);
     }
@@ -212,6 +216,8 @@ public class Constants {
     public static final int kArmScoreInHighCube = 10_000;
     public static final int kArmScoreInMid = 10_000;
 
+    public static final double HIGH_CONE_IN_METERS = 1.1;
+
   }
 
   public static final class TelescopeConstants {
@@ -232,4 +238,5 @@ public class Constants {
   public static final class ClawConstants {
     public static final int kClawMotor = 56;
   }
+
 }

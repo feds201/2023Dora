@@ -1,4 +1,4 @@
-package frc.lib.util;
+package frc.robot.config;
 
 import edu.wpi.first.math.util.Units;
 
