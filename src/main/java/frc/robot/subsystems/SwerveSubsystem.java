@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSubsystem extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
@@ -118,10 +119,12 @@ public class SwerveSubsystem extends SubsystemBase {
         if(limelight.getHasTarget()){
             limelight.updateTargetsToLatest();
             limelight.setTargetLow(isTargetLow);
+            limelight.setTarget();
             limelight.getTargetYaw();
-            double strafeTargetDistance = limelight.strafeAlign();
-            Translation2d strafeTranslation2d = new Translation2d(strafeTargetDistance, Math.PI / 2);
-            drive(strafeTranslation2d, 0, false, false);
+
+            //double strafeTargetDistance = limelight.strafeAlign();
+            //Translation2d strafeTranslation2d = new Translation2d(strafeTargetDistance, Math.PI / 2);
+            //drive(strafeTranslation2d, 0, false, false);
         }
     }
 
@@ -133,11 +136,19 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getModulePositions());  
+        if(limelight.getHasTarget()){
+            limelight.updateTargetsToLatest();
+            //limelight.setTargetLow(isTargetLow);
+            limelight.setTarget();
+            limelight.getTargetYaw();
+        SmartDashboard.putNumber("The Camera Yaw", limelight.getTargetYaw());
+        SmartDashboard.putNumber("The Camera Pitch", limelight.getTargetPitch());
 
         // for(SwerveModule mod : mSwerveMods){
         //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getTalonSRXAngle().getDegrees());
         //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
         //     SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         // }
+        }
     }
 }
