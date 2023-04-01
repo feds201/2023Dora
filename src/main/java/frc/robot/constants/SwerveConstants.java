@@ -95,6 +95,9 @@ public final class SwerveConstants {
 
 
     public static final double kMaxLinearAccel = 2;
+
+    public static final double kMaxRotationAccel = 2; // TODO: tune this to comfort
+
     public static final double kDeltaSecs = 0.05;
 
     /* Neutral Modes */

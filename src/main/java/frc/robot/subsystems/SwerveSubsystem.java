@@ -5,6 +5,7 @@ import frc.robot.utils.DriveFunctions;
 import frc.robot.constants.SwerveConstants;
 
 import frc.robot.subsystems.pigeon.Pigeon2Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.constants.ArmConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -30,6 +31,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public LimelightSubsystem limelight;
 
+    private Translation2d currentLinearOutput;
+    private double currentRotationOutput;
+
+
     public SwerveSubsystem() {
         gyro = RobotContainer.s_pigeon2;
         zeroGyro();
@@ -53,21 +58,43 @@ public class SwerveSubsystem extends SubsystemBase {
 
         swerveOdometry = new SwerveDriveOdometry(SwerveConstants.swerveKinematics, getYaw(),
                 getModulePositions());
+
+
+        currentLinearOutput = new Translation2d(0,0);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        double x = translation.getX();
-        double y = translation.getY();
+        { // for cleaning up locals 
+            Translation2d translatedTarget = translation.minus(currentLinearOutput);
+
+            double accelAngleRadians = Math.atan2(translatedTarget.getY(), translatedTarget.getX());
+            double deltaX = Math.cos(accelAngleRadians) * SwerveConstants.kMaxLinearAccel * Robot.kRobotPeriod;
+            double deltaY = Math.sin(accelAngleRadians) * SwerveConstants.kMaxLinearAccel * Robot.kRobotPeriod;
+
+            double currentX = currentLinearOutput.getX();
+            double currentY = currentLinearOutput.getY();
+
+            currentX += Math.signum(translatedTarget.getX()) * Math.min(Math.abs(deltaX), Math.abs(translatedTarget.getX()));
+            currentY += Math.signum(translatedTarget.getY()) * Math.min(Math.abs(deltaY), Math.abs(translatedTarget.getY()));
+           
+            currentLinearOutput = new Translation2d(currentX, currentY);            
+
+            double deltaRotate = rotation - currentRotationOutput;
+            currentRotationOutput += Math.signum(deltaRotate) * Math.min(SwerveConstants.kMaxRotationAccel * Robot.kRobotPeriod, Math.abs(deltaRotate));
+        }
+
+        // double x = translation.getX();
+        // double y = translation.getY();
         SwerveModuleState[] swerveModuleStates = SwerveConstants.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                        x,
-                        y,
-                        rotation,
+                        currentLinearOutput.getX(),
+                        currentLinearOutput.getY(),
+                        currentRotationOutput,
                         getYaw())
                         : new ChassisSpeeds(
-                                translation.getX(),
-                                translation.getY(),
-                                rotation));
+                                currentLinearOutput.getX(),
+                                currentLinearOutput.getY(),
+                                currentRotationOutput));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.maxSpeed);
 
         for (SwerveModule mod : mSwerveMods) {

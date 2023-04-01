@@ -26,6 +26,8 @@ public class Robot extends TimedRobot {
 
   public static CTREConfigs ctreConfigs;
 
+  public static final double kRobotPeriod = 0.05;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -33,7 +35,7 @@ public class Robot extends TimedRobot {
    */
 
   public Robot() {
-    super(0.05);
+    super(kRobotPeriod);
   }
 
 
